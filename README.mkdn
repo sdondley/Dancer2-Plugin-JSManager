@@ -1,1 +1,101 @@
-Initial commit
+# NAME
+
+JSManager - Manage website javascript files with the Dancer2 configuration file
+
+# VERSION
+
+version 0.001
+
+# SYNOPSIS
+
+    In the Dancer2 configuration file, make an entry for each javascript file you are using on the site in the order you'd like them to appear in the web page like so:
+
+                plugins:
+                        JSManager:
+                                autoload: 1                                                # defaults to 1 if not supplied. Setting to 0 turns off all javascript.
+                                libraries:
+                                        - jquery:                                                # A name you give to the library, must be preceded by a dash
+                                                        uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  # The URL where the js file is hosted on the CDN
+                                                        fallback: '/js/jquery-1.11.1.min.js'                 # Path to local js file in case CDN is unavailable
+                                        - jqm:                                                   # This library depends on previous library so we put it second
+                                                        uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
+                                                        fallback: '/js/jquery.mobile-1.4.5.min.js'
+                                        - growler:
+                                                        uri: '/js/jquery.growl.min.js'                       # if a file is not on a CDN simply put the path to the local file
+                                                        injection_pt: 'body_top'                             # control where in the template the javascript will appear (see below) 
+
+    Then all you have to do is put a variable called C<js_head> in the C<head> portion of your tempalte. So, for example, if you are using L<Template::Toolkit>, you would add the following into the C<head> section: 
+    
+    [% js_head %]
+
+    If you want to inject the javascript into different parts of your page, you can with a custom variable determined by the C<injection_pt> property, preceded by C<js_>. So, from our example above, the growler script has the C<injection_pt> set to C<body_top> so you would place the following in the appropriate place in your template:
+
+    [% js_body_top %]
+
+# OVERVIEW
+
+This is a simple plugin for the [Dancer2](http://perldancer.org/) web application framework. The target audience for this software is Dancer2 website developers looking for an easy way to insert javascript files into their templates using the Dancer2 configuration file. It can also make websites more reliable by falling back to local copies of javascript files hosted on a content deliver network (CDN) if the CDN should become unavailable.
+
+# NAME
+
+Dancer2::Plugin::JSManager - Manage website javascript files with the Dancer2 configuration file
+
+# VERSION
+
+version 0.001
+
+# CONFIGURATION
+
+Modify your [Dancer2::Config](https://metacpan.org/pod/Dancer2::Config) file and template files according to the examples above.
+
+# DEPENDENCIES
+
+None
+
+# INCOMPATIBILITIES
+
+None reported.
+
+# MOTIVATION
+
+I'm new to Dancer2 development and wrote this plugin to scratch a minor itch and to learn how to write a basic Dancer2 module.
+
+# DEVELOPMENT NOTES
+
+This software is actively maintained. Further releases are expected to help exercise my budding software development skills. Feedback, suggestions, and contributions are greatly appreciated and welcome.
+
+Eventually, I'd like to improve this module to automatically download external javascripts to the local machine and periodically download fresh copies (perhaps once a day) to ensure the local js copy is in sync with the CDN. Longer term, I'm interested in exploring the possibility of making an admin interface for updating the settings configration file. Another possible future feautre is the selection of a CDN for based on the name of some of the more the popular libraries. Finally, I'd like to expand this to be able to handle css files as well.
+
+# DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
+
+# AUTHOR
+
+Steve Dondley <s@dondley.com>
+
+# COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2017 by Steve Dondley.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
