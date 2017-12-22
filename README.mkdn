@@ -4,7 +4,7 @@ JSManager - Manage website javascript files with the Dancer2 configuration file
 
 # VERSION
 
-version 0.006
+version 0.007
 
 # OVERVIEW
 
@@ -76,65 +76,6 @@ None reported.
 You can find documentation for this module with the perldoc command.
 
     perldoc JSManager
-
-## Websites
-
-The following websites have more information about this module, and may be of help to you. As always,
-in addition to those websites please use your favorite search engine to discover more resources.
-
-- MetaCPAN
-
-    A modern, open-source CPAN search engine, useful to view POD in HTML format.
-
-    [https://metacpan.org/release/Dancer2-Plugin-JSManager](https://metacpan.org/release/Dancer2-Plugin-JSManager)
-
-- Search CPAN
-
-    The default CPAN search engine, useful to view POD in HTML format.
-
-    [http://search.cpan.org/dist/Dancer2-Plugin-JSManager](http://search.cpan.org/dist/Dancer2-Plugin-JSManager)
-
-- RT: CPAN's Bug Tracker
-
-    The RT ( Request Tracker ) website is the default bug/issue tracking system for CPAN.
-
-    [https://rt.cpan.org/Public/Dist/Display.html?Name=Dancer2-Plugin-JSManager](https://rt.cpan.org/Public/Dist/Display.html?Name=Dancer2-Plugin-JSManager)
-
-- AnnoCPAN
-
-    The AnnoCPAN is a website that allows community annotations of Perl module documentation.
-
-    [http://annocpan.org/dist/Dancer2-Plugin-JSManager](http://annocpan.org/dist/Dancer2-Plugin-JSManager)
-
-- CPAN Ratings
-
-    The CPAN Ratings is a website that allows community ratings and reviews of Perl modules.
-
-    [http://cpanratings.perl.org/d/Dancer2-Plugin-JSManager](http://cpanratings.perl.org/d/Dancer2-Plugin-JSManager)
-
-- CPANTS
-
-    The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
-
-    [http://cpants.cpanauthors.org/dist/Dancer2-Plugin-JSManager](http://cpants.cpanauthors.org/dist/Dancer2-Plugin-JSManager)
-
-- CPAN Testers
-
-    The CPAN Testers is a network of smoke testers who run automated tests on uploaded CPAN distributions.
-
-    [http://www.cpantesters.org/distro/D/Dancer2-Plugin-JSManager](http://www.cpantesters.org/distro/D/Dancer2-Plugin-JSManager)
-
-- CPAN Testers Matrix
-
-    The CPAN Testers Matrix is a website that provides a visual overview of the test results for a distribution on various Perls/platforms.
-
-    [http://matrix.cpantesters.org/?dist=Dancer2-Plugin-JSManager](http://matrix.cpantesters.org/?dist=Dancer2-Plugin-JSManager)
-
-- CPAN Testers Dependencies
-
-    The CPAN Testers Dependencies is a website that shows a chart of the test results of all dependencies for a distribution.
-
-    [http://deps.cpantesters.org/?module=Dancer2::Plugin::JSManager](http://deps.cpantesters.org/?module=Dancer2::Plugin::JSManager)
 
 ## Source Code
 
