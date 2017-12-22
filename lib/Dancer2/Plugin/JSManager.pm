@@ -56,27 +56,43 @@ This is a simple plugin for the L<Dancer2|http://perldancer.org/> web applicatio
 
 =head1 SYNOPSIS
 
-    In the Dancer2 configuration file, make an entry for each javascript file you are using on the site in the order you'd like them to appear in the web page like so:
+    In the Dancer2 configuration file, make an entry for each javascript file you are using on the site
+    in the order you'd like them to appear in the web page like so:
 
 		plugins:
 			JSManager:
-				autoload: 1                                                # defaults to 1 if not supplied. Setting to 0 turns off all javascript.
+        ; 'autoload' defaults to 1 if not supplied. Setting to 0 turns off all javascript.  
+				autoload: 1                                                
+
+        ; create a variable called 'libraries'  
 				libraries:
-					- jquery:                                                # A name you give to the library, must be preceded by a dash
-							uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  # The URL where the js file is hosted on the CDN
-							fallback: '/js/jquery-1.11.1.min.js'                 # Path to local js file in case CDN is unavailable
-					- jqm:                                                   # This library depends on previous library so we put it second
+
+# A name you give to the library, must be preceded by a dash  
+					- jquery:                                                
+# The URL where the js file is hosted on the CDN       
+							uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  
+# Path to local js file in case CDN is unavailable     
+							fallback: '/js/jquery-1.11.1.min.js'                 
+# This library depends on the previous library so we put it second   
+					- jqm:                                                   
 							uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
 							fallback: '/js/jquery.mobile-1.4.5.min.js'
 					- growler:
-							uri: '/js/jquery.growl.min.js'                       # if a file is not on a CDN simply put the path to the local file
-							injection_pt: 'body_top'                             # control where in the template the javascript will appear (see below) 
+# if a file is not on a CDN simply put the path to the local file   
+							uri: '/js/jquery.growl.min.js'                       
+ # control where in the template the javascript will appear (see below for more explanation)  
+							injection_pt: 'body_top'                            
 
-    Then all you have to do is put a variable called C<js_head> in the C<head> portion of your tempalte. So, for example, if you are using L<Template::Toolkit>, you would add the following into the C<head> section: 
+    After modifying your config file, all you have to do is put a variable called C<js_head>
+    in the C<head> portion of your tempalte. So, for example, if you are using L<Template::Toolkit>,
+    you would add the following into the C<<head>> section: 
     
     [% js_head %]
 
-    If you want to inject the javascript into different parts of your page, you can with a custom variable determined by the C<injection_pt> property, preceded by C<js_>. So, from our example above, the growler script has the C<injection_pt> set to C<body_top> so you would place the following in the appropriate place in your template:
+    If you want to inject the javascript into different parts of your page, you can with a
+    custom variable determined by the C<injection_pt> property, preceded by C<js_>. So, from the
+    example above, the growler script has the C<injection_pt> set to C<body_top> so you would
+    place the following in the appropriate place in your template:
 
     [% js_body_top %]
 
