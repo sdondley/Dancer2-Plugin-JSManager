@@ -4,13 +4,13 @@ JSManager - Manage website javascript files with the Dancer2 configuration file
 
 # VERSION
 
-version 0.005
+version 0.006
 
 # OVERVIEW
 
 This is a simple plugin for the [Dancer2](http://perldancer.org/) web application framework. The target audience for this software is Dancer2 website developers looking for an easy way to insert javascript files into their templates using the Dancer2 configuration file. It can also make websites more reliable by falling back to local copies of javascript files hosted on a content delivery network (CDN) if the CDN goes down.
 
-# SYNOPSIS
+# SYNOPSIS AND CONFIGURATION
 
 In the Dancer2 configuration file, make an entry for each javascript file you are using on the site
 in the order you'd like them to appear in the web page like so:
@@ -46,11 +46,11 @@ in the order you'd like them to appear in the web page like so:
 
 After modifying your config file, all you have to do is put a variable called `js_head`
 in the head portion of your tempalte. So, for example, if you are using [Template::Toolkit](https://metacpan.org/pod/Template::Toolkit),
-you would add the following into the `<head`> section of your HTML template: 
+you would add the following into the `<head\`> section of your HTML template: 
 
     [% js_head %]
 
-If you want to inject the javascript into different parts of your page, you can with a
+If you want to inject the javascript into different parts of your page, you can do that with a
 custom variable determined by the "injection\_pt" property, preceded by `js_`.
 
 So, from the example above, the growler script has the `injection_pt` set to `body_top` so you would
@@ -60,10 +60,6 @@ place the following in the appropriate place in your template:
 
 If you are using templating modules other than [Template::Toolkit](https://metacpan.org/pod/Template::Toolkit), consult its ducmentation for the
 appropriate syntax.
-
-# CONFIGURATION
-
-Modify your [Dancer2::Config](https://metacpan.org/pod/Dancer2::Config) file and template files according to the examples above.
 
 # DEPENDENCIES
 
