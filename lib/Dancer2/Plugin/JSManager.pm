@@ -54,7 +54,7 @@ Dancer2::Plugin::JSManager - Manage website javascript files with the Dancer2 co
 
 This is a simple plugin for the L<Dancer2|http://perldancer.org/> web application framework. The target audience for this software is Dancer2 website developers looking for an easy way to insert javascript files into their templates using the Dancer2 configuration file. It can also make websites more reliable by falling back to local copies of javascript files hosted on a content delivery network (CDN) if the CDN goes down.
 
-=head1 SYNOPSIS
+=head1 SYNOPSIS AND CONFIGURATION
 
 In the Dancer2 configuration file, make an entry for each javascript file you are using on the site
 in the order you'd like them to appear in the web page like so:
@@ -90,11 +90,11 @@ in the order you'd like them to appear in the web page like so:
 
 After modifying your config file, all you have to do is put a variable called C<js_head>
 in the head portion of your tempalte. So, for example, if you are using L<Template::Toolkit>,
-you would add the following into the C<<head>> section of your HTML template: 
+you would add the following into the C<<head\>> section of your HTML template: 
     
     [% js_head %]
 
-If you want to inject the javascript into different parts of your page, you can with a
+If you want to inject the javascript into different parts of your page, you can do that with a
 custom variable determined by the "injection_pt" property, preceded by C<js_>.
     
 So, from the example above, the growler script has the C<injection_pt> set to C<body_top> so you would
@@ -104,10 +104,6 @@ place the following in the appropriate place in your template:
 
 If you are using templating modules other than L<Template::Toolkit>, consult its ducmentation for the
 appropriate syntax.
-
-=head1 CONFIGURATION
-
-Modify your L<Dancer2::Config> file and template files according to the examples above.
 
 =head1 DEPENDENCIES
 
