@@ -121,7 +121,9 @@ I'm new to Dancer2 development and wrote this plugin to scratch a minor itch and
 
 This software is actively maintained. Further releases are expected to help exercise my budding software development skills. Feedback, suggestions, and contributions are greatly appreciated and welcome.
 
-Eventually, I'd like to improve this module to automatically download external javascripts to the local machine and periodically download fresh copies (perhaps once a day) to ensure the local js copy is in sync with the CDN. Longer term, I'm interested in exploring the possibility of making an admin interface for updating the settings configration file. Another possible future feautre is the selection of a CDN for based on the name of some of the more the popular libraries. Finally, I'd like to expand this to be able to handle css files as well.
+Eventually, I'd like to improve this module to automatically download external javascripts to the local machine and periodically download fresh copies (perhaps once a day) to ensure the local js copy is in sync with the CDN. I also want to add a feature that gives the developer control over which pages the javascript libraries load on.
+
+Longer term, I'm interested in exploring the possibility of making an admin interface for updating the settings configration file. Another possible future feautre is the selection of a CDN for based on the name of some of the more the popular libraries. Finally, I'd like to expand this to be able to handle css files as well.
 
 =head1 DISCLAIMER OF WARRANTY
 
