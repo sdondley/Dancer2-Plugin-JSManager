@@ -4,7 +4,7 @@ JSManager - Manage website javascript files with the Dancer2 configuration file
 
 # VERSION
 
-version 0.004
+version 0.005
 
 # OVERVIEW
 
@@ -12,49 +12,54 @@ This is a simple plugin for the [Dancer2](http://perldancer.org/) web applicatio
 
 # SYNOPSIS
 
-    In the Dancer2 configuration file, make an entry for each javascript file you are using on the site
-    in the order you'd like them to appear in the web page like so:
+In the Dancer2 configuration file, make an entry for each javascript file you are using on the site
+in the order you'd like them to appear in the web page like so:
 
     plugins:
-    JSManager:
-        ; 'autoload' defaults to 1 if not supplied. Setting to 0 turns off all javascript.  
-        autoload: 1                                                
+      JSManager:
+          ; 'autoload' defaults to 1 if not supplied. Setting to 0 turns off all javascript.  
+          autoload: 1                                                
 
-        ; create a variable called 'libraries'  
-        libraries:
+          ; create a variable called 'libraries'  
+          libraries:
 
-          ; A name you give to the library, must be preceded by a dash  
-          - jquery:                                                
+            ; A name you give to the library, must be preceded by a dash  
+            - jquery:                                                
 
-            ; The URL where the js file is hosted on the CDN       
-            uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  
+              ; The URL where the js file is hosted on the CDN       
+              uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  
 
-            ;Path to local js file in case CDN is unavailable     
-            fallback: '/js/jquery-1.11.1.min.js'                 
+              ;Path to local js file in case CDN is unavailable     
+              fallback: '/js/jquery-1.11.1.min.js'                 
 
             ; This library depends on the previous library so we put it second   
-          - jqm:                                                   
-            uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
-            fallback: '/js/jquery.mobile-1.4.5.min.js'
-          - growler:
-            ; if a file is not on a CDN simply put the path to the local file   
-            uri: '/js/jquery.growl.min.js'                       
+            - jqm:                                                   
+              uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
+              fallback: '/js/jquery.mobile-1.4.5.min.js'
 
-            ; control where in the template the javascript will appear (see below for more explanation)  
-            injection_pt: 'body_top'                            
+            - growler:
+              ; if a file is not on a CDN simply put the path to the local file   
+              uri: '/js/jquery.growl.min.js'                       
 
-    After modifying your config file, all you have to do is put a variable called C<js_head>
-    in the C<head> portion of your tempalte. So, for example, if you are using L<Template::Toolkit>,
-    you would add the following into the C<<head>> section: 
-    
+              ; control where in the template the javascript will appear (see below for more explanation)  
+              injection_pt: 'body_top'                            
+
+After modifying your config file, all you have to do is put a variable called `js_head`
+in the head portion of your tempalte. So, for example, if you are using [Template::Toolkit](https://metacpan.org/pod/Template::Toolkit),
+you would add the following into the `<head`> section of your HTML template: 
+
     [% js_head %]
 
-    If you want to inject the javascript into different parts of your page, you can with a
-    custom variable determined by the C<injection_pt> property, preceded by C<js_>. So, from the
-    example above, the growler script has the C<injection_pt> set to C<body_top> so you would
-    place the following in the appropriate place in your template:
+If you want to inject the javascript into different parts of your page, you can with a
+custom variable determined by the "injection\_pt" property, preceded by `js_`.
+
+So, from the example above, the growler script has the `injection_pt` set to `body_top` so you would
+place the following in the appropriate place in your template:
 
     [% js_body_top %]
+
+If you are using templating modules other than [Template::Toolkit](https://metacpan.org/pod/Template::Toolkit), consult its ducmentation for the
+appropriate syntax.
 
 # CONFIGURATION
 
