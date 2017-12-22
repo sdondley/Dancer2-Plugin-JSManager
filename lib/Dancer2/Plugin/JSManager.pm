@@ -52,40 +52,40 @@ Dancer2::Plugin::JSManager - Manage website javascript files with the Dancer2 co
 
 =head1 OVERVIEW
 
-This is a simple plugin for the L<Dancer2|http://perldancer.org/> web application framework. The target audience for this software is Dancer2 website developers looking for an easy way to insert javascript files into their templates using the Dancer2 configuration file. It can also make websites more reliable by falling back to local copies of javascript files hosted on a content deliver network (CDN) if the CDN should become unavailable.
+This is a simple plugin for the L<Dancer2|http://perldancer.org/> web application framework. The target audience for this software is Dancer2 website developers looking for an easy way to insert javascript files into their templates using the Dancer2 configuration file. It can also make websites more reliable by falling back to local copies of javascript files hosted on a content delivery network (CDN) if the CDN goes down.
 
 =head1 SYNOPSIS
 
     In the Dancer2 configuration file, make an entry for each javascript file you are using on the site
     in the order you'd like them to appear in the web page like so:
 
-		plugins:
-			JSManager:
+    plugins:
+    JSManager:
         ; 'autoload' defaults to 1 if not supplied. Setting to 0 turns off all javascript.  
-				autoload: 1                                                
+        autoload: 1                                                
 
         ; create a variable called 'libraries'  
-				libraries:
+        libraries:
 
           ; A name you give to the library, must be preceded by a dash  
-					- jquery:                                                
+          - jquery:                                                
 
-              ; The URL where the js file is hosted on the CDN       
-							uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  
+            ; The URL where the js file is hosted on the CDN       
+            uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  
 
-              ;Path to local js file in case CDN is unavailable     
-							fallback: '/js/jquery-1.11.1.min.js'                 
+            ;Path to local js file in case CDN is unavailable     
+            fallback: '/js/jquery-1.11.1.min.js'                 
 
-          ; This library depends on the previous library so we put it second   
-					- jqm:                                                   
-							uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
-							fallback: '/js/jquery.mobile-1.4.5.min.js'
-					- growler:
-              ; if a file is not on a CDN simply put the path to the local file   
-							uri: '/js/jquery.growl.min.js'                       
+            ; This library depends on the previous library so we put it second   
+          - jqm:                                                   
+            uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
+            fallback: '/js/jquery.mobile-1.4.5.min.js'
+          - growler:
+            ; if a file is not on a CDN simply put the path to the local file   
+            uri: '/js/jquery.growl.min.js'                       
 
-              ; control where in the template the javascript will appear (see below for more explanation)  
-							injection_pt: 'body_top'                            
+            ; control where in the template the javascript will appear (see below for more explanation)  
+            injection_pt: 'body_top'                            
 
     After modifying your config file, all you have to do is put a variable called C<js_head>
     in the C<head> portion of your tempalte. So, for example, if you are using L<Template::Toolkit>,
