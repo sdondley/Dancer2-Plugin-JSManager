@@ -1,75 +1,126 @@
-package Dancer2::Plugin::JSManager ;
-# ABSTRACT: this is what the module does
+package JSManager 0.01;
 
-use Modern::Perl;
+use strict;
+use warnings;
 
-# Module implementation here
+use Dancer2::Plugin;
+use DebugDump;
 
-1; # Magic true value
+sub BUILD {
+  my $s = shift;
 
-__END__
+  # default autoload to 1 if not set
+  my $autoload = $s->config->{autoload} //= 1;
+
+  if ($autoload) { 
+    $s->app->add_hook( Dancer2::Core::Hook->new (
+      name => 'before_template',
+      code => sub { 
+        my $tokens = shift;
+        $s->_inject_js($tokens);
+      }
+    ));
+  }
+}
+
+sub _inject_js {
+  my $s = shift;
+  my $tokens = shift;
+  my $libraries = $s->config->{libraries};
+  $tokens->{js_head} = "<script>function load_js(uri) { var script = document.createElement('script'); script.src = uri; document.head.appendChild(script); }</script>\n";
+  foreach my $library( @$libraries ) {
+    my ($name, $values) = %$library;
+
+    # default to <head> if no location given
+    my $location = 'js_' . ($values->{injection_pt} ||= 'head');
+
+    if ( $values->{fallback} ) { 
+      $tokens->{$location} .= sprintf qq(<script onerror="load_js('%s')" src="%s"></script>\n), $values->{fallback}, $values->{uri};
+    } else {
+      $tokens->{$location} .= sprintf qq(<script src="%s"></script>\n), $values->{uri};
+    }
+  }
+}
+
+1; # Magic true value required at end of module
+
+# ABSTRACT: Manage website javascript files with the Dancer2 configuration file
+
+=head1 NAME
+
+Dancer2::Plugin::JSManager - Manage website javascript files with the Dancer2 configuration file
+
+=head1 OVERVIEW
+
+This is a simple plugin for the L<Dancer2|http://perldancer.org/> web application framework. The target audience for this software is Dancer2 website developers looking for an easy way to insert javascript files into their templates using the Dancer2 configuration file. It can also make websites more reliable by falling back to local copies of javascript files hosted on a content deliver network (CDN) if the CDN should become unavailable.
 
 =head1 SYNOPSIS
 
-    use Dancer2::Plugin::JSManager;
+    In the Dancer2 configuration file, make an entry for each javascript file you are using on the site in the order you'd like them to appear in the web page like so:
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
+		plugins:
+			JSManager:
+				autoload: 1                                                # defaults to 1 if not supplied. Setting to 0 turns off all javascript.
+				libraries:
+					- jquery:                                                # A name you give to the library, must be preceded by a dash
+							uri: 'https://code.jquery.com/jquery-1.11.1.min.js'  # The URL where the js file is hosted on the CDN
+							fallback: '/js/jquery-1.11.1.min.js'                 # Path to local js file in case CDN is unavailable
+					- jqm:                                                   # This library depends on previous library so we put it second
+							uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
+							fallback: '/js/jquery.mobile-1.4.5.min.js'
+					- growler:
+							uri: '/js/jquery.growl.min.js'                       # if a file is not on a CDN simply put the path to the local file
+							injection_pt: 'body_top'                             # control where in the template the javascript will appear (see below) 
 
+    Then all you have to do is put a variable called C<js_head> in the C<head> portion of your tempalte. So, for example, if you are using L<Template::Toolkit>, you would add the following into the C<head> section: 
+    
+    [% js_head %]
 
-=head1 DESCRIPTION
+    If you want to inject the javascript into different parts of your page, you can with a custom variable determined by the C<injection_pt> property, preceded by C<js_>. So, from our example above, the growler script has the C<injection_pt> set to C<body_top> so you would place the following in the appropriate place in your template:
 
-=for author to fill in:
-    Write a full description of the module and its features here.
-    Use subsections (=head2, =head3) as appropriate.
+    [% js_body_top %]
 
-=head1 CONFIGURATION AND ENVIRONMENT
+=head1 CONFIGURATION
 
-=for author to fill in:
-    A full explanation of any configuration system(s) used by the
-    module, including the names and locations of any configuration
-    files, and the meaning of any environment variables or properties
-    that can be set. These descriptions must also include details of any
-    configuration language used.
-
-Dancer2::Plugin::JSManager requires no configuration files or environment variables.
-
+Modify your L<Dancer2::Config> file and template files according to the examples above.
 
 =head1 DEPENDENCIES
 
-=for author to fill in:
-    A list of all the other modules that this module relies upon,
-    including any restrictions on versions, and an indication whether
-    the module is part of the standard Perl distribution, part of the
-    module's distribution, or must be installed separately. ]
-
-None.
-
+None
 
 =head1 INCOMPATIBILITIES
 
-=for author to fill in:
-    A list of any modules that this module cannot be used in conjunction
-    with. This may be due to name conflicts in the interface, or
-    competition for system or program resources, or due to internal
-    limitations of Perl (for example, many modules that use source code
-    filters are mutually incompatible).
-
 None reported.
 
+=head1 MOTIVATION
 
-=head1 BUGS AND LIMITATIONS
+I'm new to Dancer2 development and wrote this plugin to scratch a minor itch and to learn how to write a basic Dancer2 module.
 
-=for author to fill in:
-    A list of known problems with the module, together with some
-    indication Whether they are likely to be fixed in an upcoming
-    release. Also a list of restrictions on the features the module
-    does provide: data types that cannot be handled, performance issues
-    and the circumstances in which they may arise, practical
-    limitations on the size of data sets, special cases that are not
-    (yet) handled, etc.
+=head1 DEVELOPMENT NOTES
 
-No bugs have been reported.
+This software is actively maintained. Further releases are expected to help exercise my budding software development skills. Feedback, suggestions, and contributions are greatly appreciated and welcome.
 
+Eventually, I'd like to improve this module to automatically download external javascripts to the local machine and periodically download fresh copies (perhaps once a day) to ensure the local js copy is in sync with the CDN. Longer term, I'm interested in exploring the possibility of making an admin interface for updating the settings configration file. Another possible future feautre is the selection of a CDN for based on the name of some of the more the popular libraries. Finally, I'd like to expand this to be able to handle css files as well.
+
+=head1 DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
