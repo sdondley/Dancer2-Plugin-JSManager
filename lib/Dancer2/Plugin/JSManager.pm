@@ -1,4 +1,4 @@
-package JSManager 0.01;
+package Dancer2::Plugin::JSManager;
 
 use strict;
 use warnings;
