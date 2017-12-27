@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Dancer2::Plugin;
-use DebugDump;
 
 sub BUILD {
   my $s = shift;
