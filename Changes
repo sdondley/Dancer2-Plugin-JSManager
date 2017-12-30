@@ -1,6 +1,6 @@
-*** Revision history for {{$dist->name}} ***
+*** Revision history for Dancer2-Plugin-JSManager ***
 
-{{$NEXT}}
+0.012     2017-12-29 22:05:58-05:00 America/New_York
 add tests
 
 0.011     2017-12-27 00:58:42-05:00 America/New_York
