@@ -1,0 +1,20 @@
+template: 'simple'
+plugins:
+  JSManager:
+    autoload: 1
+    libraries:
+      - jquery: 
+          uri: 'https://code.jquery.com/jquery-1.11.1.min.js'
+          fallback: '/js/jquery-1.11.1.min.js'
+      - jqm:
+          uri: 'http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'
+          fallback: '/js/jquery.mobile-1.4.5.min.js'
+      - growler: 
+          uri: '/js/jquery.growl.min.js'
+          injection_pt: 'body_top'
+      - validator:
+          uri: 'https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js'
+          fallback: '/js/jquery.validate.min.js'
+      - validator_addl:
+          uri: 'https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/additional-methods.min.js'
+          fallback: '/js/additional-methods.min.js'
